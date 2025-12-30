@@ -1,0 +1,10 @@
+Directory listing for /Users/macmone/code/openhands-eval:
+
+- SUMMARY_OLD.txt: Previous summary file (if any).
+- hello_agent.py: Example Python script for the OpenHands agent.
+- pyproject.toml: Project configuration and dependencies.
+- setup.md: Setup instructions for the project.
+- test_openrouter.py: Test script for OpenRouter integration.
+- uv.lock: Lock file for uv package manager.
+
+This directory contains the core files for the OpenHands evaluation environment, including the agent script, configuration, and test files.

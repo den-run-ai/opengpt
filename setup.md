@@ -144,6 +144,26 @@ uv run python hello_agent.py
 | `FileEditorTool` | Read, write, edit files |
 | `TaskTrackerTool` | Track task progress |
 
+### Shared Module
+
+The `openhands_agent.py` module provides reusable functions for running agents:
+
+```python
+from openhands_agent import run_gpt_oss_agent, run_qwen_agent, run_agent
+
+# Run GPT-OSS agent (cost-effective)
+run_gpt_oss_agent("Create a hello.py file")
+
+# Run Qwen agent (high quality)
+run_qwen_agent("List files and summarize them")
+
+# Or use the generic function with model selection
+run_agent("gpt-oss", "Your task here", workspace="/path/to/workspace")
+run_agent("qwen", "Your task here", verbose=False)
+```
+
+This enables code reuse between different agent scripts and simplifies testing.
+
 ### Workspace Options
 
 **Local workspace (default):**
@@ -297,10 +317,45 @@ openhands-eval/
 ├── .venv/                # Virtual environment (created by uv sync)
 ├── pyproject.toml        # Dependencies and project config
 ├── uv.lock               # Locked dependency versions
-├── hello_agent.py        # Main agent script
+├── openhands_agent.py    # Shared agent module (common functionality)
+├── gpt_oss_agent.py      # GPT-OSS-120B agent script
+├── hello_agent.py        # Qwen3 Coder agent script
+├── test_agents.py        # Pytest tests for tool calling validation
 ├── test_openrouter.py    # API connection test
 └── setup.md              # This documentation
 ```
+
+## Testing
+
+The project includes pytest tests to validate tool calling works correctly for both GPT-OSS and Qwen models.
+
+### Run Tests
+
+```bash
+# Run all tests
+uv run pytest test_agents.py -v
+
+# Run only unit tests (fast, no API calls)
+uv run pytest test_agents.py -v -m "not integration"
+
+# Run only GPT-OSS integration tests
+uv run pytest test_agents.py -v -k gpt_oss -m integration
+
+# Run only Qwen integration tests
+uv run pytest test_agents.py -v -k qwen -m integration
+```
+
+### Test Coverage
+
+| Test Class | Description |
+|------------|-------------|
+| `TestModelConfiguration` | Validates model configs are defined correctly |
+| `TestAgentCreation` | Verifies agents are created with proper tools |
+| `TestGptOssToolCalling` | Integration tests for GPT-OSS-120B tool calling |
+| `TestQwenToolCalling` | Integration tests for Qwen3 Coder tool calling |
+| `TestBothModels` | Parametrized tests running both models |
+
+Integration tests require a valid `OPENROUTER_API_KEY` and will make actual API calls.
 
 ## Quick Reference
 
@@ -314,6 +369,9 @@ echo 'LLM_MODEL=openrouter/qwen/qwen3-coder' >> .env  # LiteLLM format
 
 # Test API connection
 uv run python test_openrouter.py
+
+# Run tests
+uv run pytest test_agents.py -v
 
 # Run agent
 uv run python hello_agent.py

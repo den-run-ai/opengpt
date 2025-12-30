@@ -1,0 +1,11 @@
+Directory listing for /Users/macmone/code/openhands-eval:
+
+- README.md
+- gpt_oss_agent.py
+- hello_agent.py
+- pyproject.toml
+- setup.md
+- test_openrouter.py
+- uv.lock
+
+The repository appears to be a Python project with an OpenHands evaluation setup. It includes example agent scripts (gpt_oss_agent.py, hello_agent.py), a README, a pyproject.toml for build configuration, a setup.md possibly with usage instructions, a test script (test_openrouter.py), and a uv.lock lockfile for dependencies.

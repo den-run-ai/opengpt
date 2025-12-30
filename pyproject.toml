@@ -8,6 +8,12 @@ dependencies = [
     "litellm>=1.0.0",
     "openhands-sdk",
     "openhands-tools",
+    "pytest>=8.0.0",
+]
+
+[tool.pytest.ini_options]
+markers = [
+    "integration: marks tests as integration tests (require API access)",
 ]
 
 [tool.uv.sources]

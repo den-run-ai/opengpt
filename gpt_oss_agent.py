@@ -14,58 +14,13 @@ Model Info:
     - Architecture: MoE (117B params, 5.1B activated)
 """
 
-import os
-
-from dotenv import load_dotenv
-
-from openhands.sdk import LLM, Agent, Conversation, Tool
-from openhands.tools.file_editor import FileEditorTool
-from openhands.tools.task_tracker import TaskTrackerTool
-from openhands.tools.terminal import TerminalTool
-
-load_dotenv()
+from openhands_agent import run_gpt_oss_agent
 
 
 def main():
-    api_key = os.getenv("OPENROUTER_API_KEY")
-    
-    if not api_key:
-        raise ValueError(
-            "OPENROUTER_API_KEY not found. "
-            "Please set it in your .env file or environment."
-        )
-    
-    # GPT-OSS-120B via OpenRouter
-    model = "openrouter/openai/gpt-oss-120b"
-    
-    llm = LLM(
-        model=model,
-        api_key=api_key,
-        max_output_tokens=8192,
-    )
-
-    agent = Agent(
-        llm=llm,
-        tools=[
-            Tool(name=TerminalTool.name),
-            Tool(name=FileEditorTool.name),
-            Tool(name=TaskTrackerTool.name),
-        ],
-    )
-
-    cwd = os.getcwd()
-    conversation = Conversation(agent=agent, workspace=cwd)
-
     task = "List the files in the current directory and write a summary to SUMMARY.txt"
-    print(f"🚀 Sending task to agent: {task}")
-    print(f"📡 Using model: {model}")
-    
-    conversation.send_message(task)
-    conversation.run()
-    
-    print("✅ All done!")
+    run_gpt_oss_agent(task)
 
 
 if __name__ == "__main__":
     main()
-

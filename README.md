@@ -9,9 +9,9 @@ OpenHands GPS-OSS OpenRouter setup.
    uv sync
    ```
 
-2. Set your OpenRouter API key:
+2. Create a `.env` file with your OpenRouter API key:
    ```bash
-   export OPENROUTER_API_KEY="your-key-here"
+   echo 'OPENROUTER_API_KEY=your-key-here' > .env
    ```
 
 3. Run an agent:
